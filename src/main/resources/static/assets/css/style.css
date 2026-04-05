@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 body {
-  font-family: 'Prompt';
+  font-family: 'Outfit', sans-serif;
   background: #fff;
   overflow-x: hidden;
   text-transform: capitalize;
@@ -10,7 +11,7 @@ body {
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Prompt';
+  font-family: 'Outfit', sans-serif;
   font-style: normal;
   font-weight: 200;
   src: url('../fonts/prompt-v10-latin-200.woff2') format('woff2');
@@ -21,7 +22,7 @@ body {
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Prompt';
+  font-family: 'Outfit', sans-serif;
   font-style: normal;
   font-weight: 300;
   src: url('../fonts/prompt-v10-latin-300.woff2') format('woff2');
@@ -32,7 +33,7 @@ body {
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Prompt';
+  font-family: 'Outfit', sans-serif;
   font-style: normal;
   font-weight: 400;
   src: url('../fonts/prompt-v10-latin-regular.woff2') format('woff2');
@@ -43,7 +44,7 @@ body {
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Prompt';
+  font-family: 'Outfit', sans-serif;
   font-style: normal;
   font-weight: 500;
   src: url('../fonts/prompt-v10-latin-500.woff2') format('woff2');
@@ -54,7 +55,7 @@ body {
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Prompt';
+  font-family: 'Outfit', sans-serif;
   font-style: normal;
   font-weight: 600;
   src: url('../fonts/prompt-v10-latin-600.woff2') format('woff2');
@@ -65,7 +66,7 @@ body {
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Prompt';
+  font-family: 'Outfit', sans-serif;
   font-style: normal;
   font-weight: 700;
   src: url('../fonts/prompt-v10-latin-700.woff2') format('woff2');
@@ -76,7 +77,7 @@ body {
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Prompt';
+  font-family: 'Outfit', sans-serif;
   font-style: normal;
   font-weight: 800;
   src: url('../fonts/prompt-v10-latin-800.woff2') format('woff2');
@@ -87,7 +88,7 @@ body {
 @font-face {
   font-display: swap;
   /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Prompt';
+  font-family: 'Outfit', sans-serif;
   font-style: normal;
   font-weight: 900;
   src: url('../fonts/prompt-v10-latin-900.woff2') format('woff2');
@@ -183,7 +184,7 @@ a.active::after {
 
 header a.head-btn {
   color: #fff;
-  background: #ff2d55;
+  background: #3b82f6;
   font-weight: 600;
   font-size: 15px;
   box-shadow: 0 8px 6px -6px rgba(50, 51, 51, .4);
@@ -232,7 +233,7 @@ header a.head-btn:hover {
 .hero-deta-main p {
   font-weight: 400;
   font-size: 20px;
-  color: #ffd465;
+  color: #8ea611;
   margin: 8px 0 0 0;
 }
 
@@ -287,7 +288,7 @@ header a.head-btn:hover {
 .hero-sec .swiper-button-prev::after {
   font-size: 18px;
   border-radius: 50%;
-  background: #ec268f;
+  background: #3b82f6;
   backdrop-filter: blur(4px);
   color: #fff;
   padding: 12px 16.4px;
@@ -295,7 +296,7 @@ header a.head-btn:hover {
 }
 
 .hero-sec .swiper-pagination-bullet-active {
-  background: #FFD465;
+  background: #8ea611;
 }
 
 .hero-deta-main h1 {
@@ -308,7 +309,7 @@ header a.head-btn:hover {
 .hero-deta-main a {
   font-weight: 400;
   font-size: 25px;
-  color: #ffd465;
+  color: #8ea611;
   display: inline-block;
   margin-top: 10px;
 }
@@ -326,7 +327,7 @@ header a.head-btn:hover {
   position: absolute;
   left: 60px;
   top: 50%;
-  background: #FFD465;
+  background: #8ea611;
   width: 6px;
   height: 245px;
   transform: translateY(-50%);
@@ -334,7 +335,7 @@ header a.head-btn:hover {
 }
 
 .breath-sec-main h3 span {
-  color: #FFD465;
+  color: #8ea611;
 }
 
 .hero-slide-main h5 {
@@ -385,7 +386,7 @@ header a.head-btn:hover {
 }
 
 .hero-slide-main h1 .bottom-line {
-  background: linear-gradient(180deg, transparent 80%, #ff2d55 0);
+  background: linear-gradient(180deg, transparent 80%, #3b82f6 0);
   background-size: auto;
   background-size: 100px 1.2em !important;
 }
@@ -459,7 +460,7 @@ header a.head-btn:hover {
   font-weight: 400;
   font-size: 50px;
   line-height: 100%;
-  color: #ffd126;
+  color: #8ea611;
   margin-bottom: 40px;
 }
 
@@ -483,7 +484,7 @@ header a.head-btn:hover {
   color: #000;
   padding: 14px;
   outline: none;
-  border: 1px solid #ffd126;
+  border: 1px solid #8ea611;
 }
 
 .contact-right-text .row {
@@ -491,7 +492,7 @@ header a.head-btn:hover {
 }
 
 .contact-sub-btn button {
-  background: #FFD126;
+  background: #8ea611;
   color: #000;
   font-weight: 500;
   font-size: 16px;
@@ -721,7 +722,7 @@ header a.head-btn:hover {
 }
 
 .contact-card {
-  background: #EC268F;
+  background: #3b82f6;
   border-radius: 200px 200px 0 0;
   padding: 75px 37px;
   text-align: center;

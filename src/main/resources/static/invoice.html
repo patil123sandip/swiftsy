@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create/Edit Invoice - Swiftsy Freight</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="portal.css">
+    <style>
+        .form-section-title {
+            color: #8ea611;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">S</div>
+                <h5 style="margin:0; font-weight: 700;">Swiftsy IMS</h5>
+            </div>
+            <div class="sidebar-nav">
+                <a href="/dashboard.html" class="nav-link premium active">
+                    <i class="bi bi-grid"></i> Invoices
+                </a>
+                <a href="/customers.html" class="nav-link premium">
+                    <i class="bi bi-people"></i> Customers
+                </a>
+            </div>
+            <div style="padding: 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
+                <button onclick="logout()" class="btn-outline-neon w-100"><i class="bi bi-box-arrow-right"></i> Logout</button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <div>
+                    <h2 id="formTitle" style="font-weight: 700; margin-bottom: 5px;">Create Invoice</h2>
+                    <p style="color: var(--text-muted); margin: 0;">Fill in the shipment details below.</p>
+                </div>
+            </div>
+
+            <div class="glass-panel p-5" style="max-width: 900px;">
+                <form id="invoiceForm">
+                    <!-- Client Details -->
+                    <div class="form-section-title">Client Information</div>
+                    <div class="row mb-5">
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label">Select Customer</label>
+                            <select id="customerId" class="form-select premium" required></select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Invoice Date</label>
+                            <input type="date" id="date" class="form-control premium">
+                            <small style="color: var(--text-muted); font-size:12px;">Defaults to today</small>
+                        </div>
+                    </div>
+
+                    <!-- Shipment Details -->
+                    <div class="form-section-title">Logistics Data</div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 mb-4">
+                            <label class="form-label">BL Number</label>
+                            <input type="text" id="blNumber" class="form-control premium" required placeholder="Bill of lading">
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <label class="form-label">Container Number</label>
+                            <input type="text" id="containerNumber" class="form-control premium" required placeholder="Container ID">
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <label class="form-label">Shipment Date</label>
+                            <input type="date" id="shipmentDate" class="form-control premium" required>
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">Origin Port</label>
+                            <input type="text" id="originPort" class="form-control premium" required placeholder="Port of loading">
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label">Destination Port</label>
+                            <input type="text" id="destinationPort" class="form-control premium" required placeholder="Port of discharge">
+                        </div>
+                    </div>
+
+                    <!-- Charges -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="form-section-title" style="margin:0; border:none; padding:0;">Charges Breakdown</div>
+                        <button type="button" class="btn btn-sm btn-outline-neon" onclick="addChargeRow()">+ Add Row</button>
+                    </div>
+                    
+                    <div style="background: var(--bg-panel); border-radius: 12px; padding: 20px; border: 1px solid rgba(255,255,255,0.02); margin-bottom: 30px;">
+                        <table class="table-premium" style="margin:0;" id="chargesTable">
+                            <thead>
+                                <tr>
+                                    <th>Description / Line Item</th>
+                                    <th>Amount (INR)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="chargesBody">
+                                <!-- JS content -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row mb-5 justify-content-end">
+                        <div class="col-md-3">
+                            <label class="form-label text-end w-100">GST Percentage (%)</label>
+                            <input type="number" step="0.1" id="gstPercentage" class="form-control premium text-end" value="18">
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-3 pt-4" style="border-top: 1px solid rgba(255,255,255,0.05);">
+                        <a href="/dashboard.html" class="btn btn-outline-light" style="border-radius: 8px; padding: 10px 24px;">Cancel</a>
+                        <button type="submit" class="btn-neon px-5">Save Invoice</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/app.js"></script>
+    <script>
+        checkAuth();
+        const urlParams = new URLSearchParams(window.location.search);
+        const invoiceId = urlParams.get('id');
+
+        async function init() {
+            const cRes = await fetchWithAuth('/customers');
+            if (cRes && cRes.ok) {
+                const customers = await cRes.json();
+                const customerSelect = document.getElementById('customerId');
+                customers.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.id;
+                    opt.textContent = `${c.name} (${c.gstNumber})`;
+                    customerSelect.appendChild(opt);
+                });
+            }
+
+            if (invoiceId) {
+                document.getElementById('formTitle').textContent = 'Edit Invoice';
+                const res = await fetchWithAuth(`/invoices/${invoiceId}`);
+                if (res && res.ok) {
+                    const inv = await res.json();
+                    document.getElementById('customerId').value = inv.customer.id;
+                    document.getElementById('date').value = inv.date;
+                    document.getElementById('blNumber').value = inv.blNumber;
+                    document.getElementById('containerNumber').value = inv.containerNumber;
+                    document.getElementById('shipmentDate').value = inv.shipmentDate;
+                    document.getElementById('originPort').value = inv.originPort;
+                    document.getElementById('destinationPort').value = inv.destinationPort;
+                    document.getElementById('gstPercentage').value = inv.gstPercentage;
+                    
+                    inv.items.forEach(item => addChargeRow(item.description, item.amount));
+                }
+            } else {
+                addChargeRow('Freight Charges', 0);
+                addChargeRow('Handling Charges', 0);
+                addChargeRow('Documentation Charges', 0);
+            }
+        }
+
+        function addChargeRow(desc = '', amt = '') {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="padding: 10px 16px;"><input type="text" class="form-control premium item-desc" required value="${desc}" placeholder="Description"></td>
+                <td style="padding: 10px 16px;"><input type="number" step="0.01" class="form-control premium item-amt" required value="${amt}" placeholder="0.00"></td>
+                <td style="padding: 10px 16px; text-align:right;"><button type="button" class="btn btn-sm" style="background: rgba(220, 53, 69, 0.1); color: #ff6b6b;" onclick="this.parentElement.parentElement.remove()"><i class="bi bi-trash"></i></button></td>
+            `;
+            document.getElementById('chargesBody').appendChild(tr);
+        }
+
+        document.getElementById('invoiceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const items = [];
+            document.querySelectorAll('#chargesBody tr').forEach(tr => {
+                const amt = parseFloat(tr.querySelector('.item-amt').value);
+                items.push({
+                    description: tr.querySelector('.item-desc').value,
+                    amount: isNaN(amt) ? 0 : amt
+                });
+            });
+
+            const payload = {
+                customer: { id: document.getElementById('customerId').value },
+                date: document.getElementById('date').value || null,
+                blNumber: document.getElementById('blNumber').value,
+                containerNumber: document.getElementById('containerNumber').value,
+                originPort: document.getElementById('originPort').value,
+                destinationPort: document.getElementById('destinationPort').value,
+                shipmentDate: document.getElementById('shipmentDate').value,
+                gstPercentage: parseFloat(document.getElementById('gstPercentage').value),
+                items: items
+            };
+
+            const method = invoiceId ? 'PUT' : 'POST';
+            const url = invoiceId ? `/invoices/${invoiceId}` : `/invoices`;
+
+            const res = await fetchWithAuth(url, {
+                method,
+                body: JSON.stringify(payload)
+            });
+
+            if (res && res.ok) {
+                window.location.href = '/dashboard.html';
+            } else {
+                alert('Failed to save invoice');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swiftsy Freight - Portal Login</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="portal.css">
+    <style>
+        .login-wrapper {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            background: radial-gradient(circle at top left, #1a1f2e, #0f1115);
+        }
+        .login-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .login-right {
+            flex: 1;
+            background-image: url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .login-right::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, #0f1115 0%, transparent 100%);
+        }
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+        }
+        .login-box h2 {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .login-box p {
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+        .glow-circle {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(142, 166, 17, 0.15);
+            border-radius: 50%;
+            filter: blur(80px);
+            top: -100px;
+            left: -100px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-left">
+            <div class="glow-circle"></div>
+            <div class="login-box glass-panel">
+                <div style="display: flex; align-items:center; gap: 10px; margin-bottom: 30px;">
+                    <div class="sidebar-logo">S</div>
+                    <h4 style="margin:0; font-weight: 700;">Swiftsy Freight</h4>
+                </div>
+                <h2>Welcome back</h2>
+                <p>Log in to access the IMS portal.</p>
+                
+                <div class="alert alert-danger d-none" id="errorMsg" style="background: rgba(220,53,69,0.1); border-color: rgba(220,53,69,0.3); color: #ff6b6b;"></div>
+                
+                <form id="loginForm">
+                    <div class="mb-4">
+                        <label class="form-label">Username</label>
+                        <input type="text" id="username" class="form-control premium" required placeholder="Enter your username">
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control premium" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn-neon w-100 mt-2">Log In</button>
+                </form>
+                <div class="text-center mt-5">
+                    <a href="/" style="color: var(--text-muted); text-decoration: none; font-size: 14px; transition: color 0.3s; cursor: pointer;">← Back to Main Site</a>
+                </div>
+            </div>
+        </div>
+        <div class="login-right"></div>
+    </div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                if (res.ok) {
+                    const data = await res.json();
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('username', data.username);
+                    window.location.href = '/dashboard.html';
+                } else {
+                    document.getElementById('errorMsg').textContent = 'Invalid credentials';
+                    document.getElementById('errorMsg').classList.remove('d-none');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>
