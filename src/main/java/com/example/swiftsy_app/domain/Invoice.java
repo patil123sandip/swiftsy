@@ -29,6 +29,18 @@ public class Invoice {
     private String destinationPort;
     private LocalDate shipmentDate;
 
+    // Advanced Invoice Meta
+    private String jobNumber;
+    private String shippingBillRef;
+    private String title;
+    private String exchangeRateNote;
+
+    // Advanced Shipment Metrics
+    private String numberOfPackages;
+    private String weight;
+    private String measurement;
+    private Double exchangeRate;
+
     // Items
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InvoiceItem> items = new ArrayList<>();
@@ -39,5 +51,5 @@ public class Invoice {
     // Totals
     private double subtotal;
     private double gstAmount;
-    private double grandTotal;
+    private Double grandTotal;
 }

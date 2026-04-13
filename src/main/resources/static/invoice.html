@@ -79,7 +79,7 @@
                             <input type="date" id="shipmentDate" class="form-control premium" required>
                         </div>
                     </div>
-                    <div class="row mb-5">
+                    <div class="row mb-3">
                         <div class="col-md-6 mb-4">
                             <label class="form-label">Origin Port</label>
                             <input type="text" id="originPort" class="form-control premium" required placeholder="Port of loading">
@@ -87,6 +87,42 @@
                         <div class="col-md-6 mb-4">
                             <label class="form-label">Destination Port</label>
                             <input type="text" id="destinationPort" class="form-control premium" required placeholder="Port of discharge">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4 mb-4">
+                            <label class="form-label">Job Number</label>
+                            <input type="text" id="jobNumber" class="form-control premium" placeholder="e.g. 45">
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <label class="form-label">Shipping Bill Ref & Date</label>
+                            <input type="text" id="shippingBillRef" class="form-control premium" placeholder="e.g. 1438717 DT: 12-03-2026">
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <label class="form-label">Invoice Title</label>
+                            <input type="text" id="title" class="form-control premium" placeholder="e.g. TAX INVOICE">
+                        </div>
+                    </div>
+                    <div class="row mb-5">
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Packages</label>
+                            <input type="text" id="numberOfPackages" class="form-control premium" placeholder="e.g. 590 PKGS">
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Weight</label>
+                            <input type="text" id="weight" class="form-control premium" placeholder="e.g. 15340.00 KGS">
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Volume / Measurement</label>
+                            <input type="text" id="measurement" class="form-control premium" placeholder="e.g. 20 CBM">
+                        </div>
+                        <div class="col-md-3 mb-4">
+                            <label class="form-label">Exchange Rate</label>
+                            <input type="number" step="0.01" id="exchangeRate" class="form-control premium" value="1.00">
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label class="form-label">Exchange Rate Note (Optional)</label>
+                            <input type="text" id="exchangeRateNote" class="form-control premium" placeholder="e.g. Exchange Rate as per SBI on date...">
                         </div>
                     </div>
 
@@ -160,6 +196,14 @@
                     document.getElementById('originPort').value = inv.originPort;
                     document.getElementById('destinationPort').value = inv.destinationPort;
                     document.getElementById('gstPercentage').value = inv.gstPercentage;
+                    document.getElementById('jobNumber').value = inv.jobNumber || '';
+                    document.getElementById('shippingBillRef').value = inv.shippingBillRef || '';
+                    document.getElementById('title').value = inv.title || '';
+                    document.getElementById('numberOfPackages').value = inv.numberOfPackages || '';
+                    document.getElementById('weight').value = inv.weight || '';
+                    document.getElementById('measurement').value = inv.measurement || '';
+                    document.getElementById('exchangeRate').value = inv.exchangeRate || 1.00;
+                    document.getElementById('exchangeRateNote').value = inv.exchangeRateNote || '';
                     
                     inv.items.forEach(item => addChargeRow(item.description, item.amount));
                 }
@@ -201,6 +245,14 @@
                 destinationPort: document.getElementById('destinationPort').value,
                 shipmentDate: document.getElementById('shipmentDate').value,
                 gstPercentage: parseFloat(document.getElementById('gstPercentage').value),
+                jobNumber: document.getElementById('jobNumber').value,
+                shippingBillRef: document.getElementById('shippingBillRef').value,
+                title: document.getElementById('title').value,
+                numberOfPackages: document.getElementById('numberOfPackages').value,
+                weight: document.getElementById('weight').value,
+                measurement: document.getElementById('measurement').value,
+                exchangeRate: parseFloat(document.getElementById('exchangeRate').value) || 1.0,
+                exchangeRateNote: document.getElementById('exchangeRateNote').value,
                 items: items
             };
 
